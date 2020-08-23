@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  main:
+    container_name: main
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    # Override the default dockerfile command
+    command: yarn run test:integration
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      #- redis
+      - db_from_devbox_shema_only
+  #  redis:
+  #    container_name: redis
+  #    image: redis:5
+  #    networks:
+  #      - webnet
+
+  db_from_devbox_shema_only:
+    container_name: postgres
+    image: postgres:12
+    restart: always
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./docker-scripts:/docker-entrypoint-initdb.d/
+
+networks:
+  webnet:
+volumes:
+  pgdata:
