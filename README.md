@@ -120,9 +120,9 @@ It will start docker which
 
 ## Built with
 1. [NestJS](http://nestjs.com/) - A progressive Node.js framework for building efficient, reliable and scalable server-side applications.
-2. Custom Logger - Logger module based in Winston Logger 
-3. Custom Config - Config module based in Winston Logger
-4. Custom Cache - Cache module based in Winston Logger  
+2. Custom Logger - Logger module based on Winston Logger 
+3. Custom Config - Config module with Vault support
+4. Custom Cache - Cache module  
   
 **Updated 23.8.2020**
 
